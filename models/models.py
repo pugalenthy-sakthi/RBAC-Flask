@@ -52,7 +52,7 @@ class User(Base):
   roles = relationship('Role',secondary=user_role_association,back_populates='users_list')
   policy_list = relationship('Policy',secondary=policy_user_association,back_populates='user_list')
   
-  def __init__(self,name,password,email,role) -> None:
+  def __init__(self,name,password,email) -> None:
     
     self.name = name
     self.password = bcrypt.generate_password_hash(password).decode('utf-8')
