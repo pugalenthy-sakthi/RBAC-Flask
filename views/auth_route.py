@@ -8,7 +8,7 @@ auth_route = Blueprint('auth_route',__name__,url_prefix='/auth/api/')
 
 
 @auth_route.post('/signup')
-def schemas():
+def user_signup():
   try:
     signup_data = SignupData().load(request.json)
     return user_services.create_user(signup_data)
