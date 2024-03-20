@@ -1,4 +1,4 @@
-from sqlalchemy import Column,String,Text,ForeignKey,Enum,Table,Integer
+from sqlalchemy import Column,String,Text,ForeignKey,Enum,Table,Integer,DateTime,func
 from sqlalchemy.orm import relationship
 from models.base import Base
 from config import bcrypt
@@ -51,12 +51,30 @@ class User(Base):
   
   roles = relationship('Role',secondary=user_role_association,back_populates='users_list')
   policy_list = relationship('Policy',secondary=policy_user_association,back_populates='user_list')
+  activities = relationship('Activity',uselist=True, back_populates='user')
   
   def __init__(self,name,password,email) -> None:
     
     self.name = name
     self.password = bcrypt.generate_password_hash(password).decode('utf-8')
     self.email = email
+    
+class Activity(Base):
+    
+    __tablename__ = 'user_activity_table'
+    
+    user_id = Column(Integer,ForeignKey('user_table.id'),nullable=False)
+    
+    login_at = Column(DateTime(timezone=True),default=func.now())
+    
+    logout_at = Column(DateTime(timezone=True))
+    
+    session_id = Column(String(50),nullable=False)
+    
+    def __init__(self,user):
+        self.user = user
+    
+    user = relationship('User', back_populates='activities')
     
 class Role(Base):
   
