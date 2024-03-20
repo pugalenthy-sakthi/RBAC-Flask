@@ -2,6 +2,7 @@
 from factory import create_app
 from config import db
 from flask_migrate import Migrate
+from models.models import *
 
 
 
