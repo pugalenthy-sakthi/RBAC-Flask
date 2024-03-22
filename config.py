@@ -4,6 +4,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_jwt_extended import JWTManager
 from flask_caching import Cache
 from flask_bcrypt import Bcrypt
+import redis
 
 
 load_dotenv()
@@ -25,5 +26,6 @@ db = SQLAlchemy()
 cache = Cache()
 jwt = JWTManager()
 bcrypt = Bcrypt()
+redis_client = redis.Redis(host=Config.CACHE_REDIS_HOST,port=Config.CACHE_REDIS_PORT,db=Config.CACHE_REDIS_DB)
   
   

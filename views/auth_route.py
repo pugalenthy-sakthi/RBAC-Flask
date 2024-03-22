@@ -75,7 +75,7 @@ def user_login():
 def user_refresh():
   try:
     session = db.session()
-    session_id = request.headers['Authorization'] # needs to replaced after middleware added
+    session_id = request.headers['Session_Id']
     activity = activity_service.get_activity(session_id)
     if activity is None:
       return response_functions.not_found_sender(None,responses.data_not_found)
@@ -103,7 +103,7 @@ def user_refresh():
 def user_logout():
   try:
     session = db.session()
-    session_id = request.headers['Authorization']  # needs to replaced after middleware added
+    session_id = request.headers['Session_Id']
     activity = activity_service.get_activity(session_id)
     if activity is None:
       return response_functions.not_found_sender(None,responses.data_not_found)

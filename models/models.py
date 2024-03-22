@@ -68,19 +68,30 @@ class API(Base):
   __tablename__ = 'api_table'
   
   api_name = Column(String(40),nullable=False,unique=True)
-  api_url = Column(Text,nullable=False)
+  api_path = Column(Text,nullable=False)
   method = Column(Enum(APIMethods),nullable=False)
 
   policy_list = relationship('Policy',secondary=policy_api_association,back_populates='api_list')
+  
+  def __init__(self,api_name,api_path,method) :
+    
+    self.api_name = api_name
+    self.api_path = api_path
+    self.method = method
   
 
 class Policy(Base):
   
   __tablename__ = 'policy_table'
   
-  policy_name = Column(String(100),nullable=False)
+  policy_name = Column(String(100),nullable=False,unique=True)
   
   api_list = relationship('API',secondary=policy_api_association,back_populates='policy_list')
   user_list = relationship('User',secondary=policy_user_association,back_populates='policy_list')
+  
+  def __init__(self,policy_name) :
+     self.policy_name = policy_name
+  
+  
   
   

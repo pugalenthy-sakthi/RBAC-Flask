@@ -12,7 +12,16 @@ def create_user(session,user):
 def get_user_by_email(email):
   
   try:
-    exist_data = User.query.filter(and_(User.email == email,User.deleted_at == None)).first()
+    exist_data = User.query.filter(User.email == email).first()
     return exist_data
+  except Exception as e:
+    return e
+  
+  
+def get_all_users():
+  
+  try:
+    users_list = User.query.filter(User.isdev != True).all()
+    return users_list
   except Exception as e:
     return e

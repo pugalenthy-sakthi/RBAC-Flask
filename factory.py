@@ -1,11 +1,13 @@
 from flask import Flask
 from config import db,bcrypt,cache,jwt,Config
 from views import auth_route,dev_route,policy_route,service_route,user_route
+from middlewares.token_required import token_required
 
 def create_app():
   
   app = Flask(__name__)
   app.config.from_object(Config)
+  app.before_request(token_required)
   app.register_blueprint(auth_route.auth_route)
   app.register_blueprint(dev_route.dev_route)
   app.register_blueprint(policy_route.policy_route)
